@@ -215,7 +215,7 @@ resource "aws_route_table_association" {
 resource "aws_vpc_endpoint" "gateway_vpc_endpoint_for_s3" {
   vpc_id = aws_vpc.id
   # the service name is usually in the form "com.amazonaws.<region>.<service>"
-  service_name = "com.amazonaws.${var.region}.s3"
+  service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
   vpc_endpoint_type = "Gateway"
 
   tags = {
@@ -234,7 +234,7 @@ resource "aws_vpc_endpoint_route_table_association" "gateway_vpc_endpoint_associ
 # ---------------------------------------
 resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr" {
   vpc_id = aws_vpc.id
-  service_name = "com.amazonaws.${var.region}.ecr.api"
+  service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
   vpc_endpoint_name = "Interface"
   subnet_ids = [
     aws_subnet.aws_subnet.private-subnet-egress-1a,
