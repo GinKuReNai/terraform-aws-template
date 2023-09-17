@@ -16,6 +16,16 @@ resource "aws_vpc" "vpc" {
 }
 
 # ---------------------------------------
+# VPC Flow Logs
+# ---------------------------------------
+resource "aws_flow_log" "vpc_flow_log" {
+  iam_role_arn = var.vpc_flow_logs_role_arn
+  log_destination = aws_cloudwatch_log_group.vpc_flow_logs_log_group.arn
+  traffic_type = "ALL"
+  vpc_id = aws_vpc.vpc.id
+}
+
+# ---------------------------------------
 # Public Subnet(ingress)
 # ---------------------------------------
 resource "aws_subnet" "public-subnet-ingress-1a" {

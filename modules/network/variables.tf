@@ -23,6 +23,11 @@ variable "cidr_block" {
   description = "Series of CIDR Block"
 }
 
+variable "vpc_flow_logs_role_arn" {
+  type = string
+  description = "VPC Flow Logs Role ARN"
+}
+
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
