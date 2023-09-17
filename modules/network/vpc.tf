@@ -240,9 +240,7 @@ resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr" {
     aws_subnet.aws_subnet.private-subnet-egress-1a,
     aws_subnet.aws_subnet.private-subnet-egress-1c
   ]
-  # todo: SGの設定が完了したら、該当するSGのidをセットすること
-  security_group_ids = [
-  ]
+  security_group_ids = [ aws_security_group.vpc_endpoint_sg.id ]
   private_dns_enabled = true
 
   tags = {

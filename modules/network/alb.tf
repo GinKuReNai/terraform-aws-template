@@ -5,8 +5,7 @@ resource "aws_lb" "alb" {
   name = "${var.project}-${var.environment}-alb"
   internal = false
   load_balancer_type = "application"
-  # todo: SGを設定したら、該当のSGのidを設定すること
-  security_groups = []
+  security_groups = [ aws_security_group.alb_sg.id ]
   subnets = [
     aws_subnet.public-subnet-ingress-1a.id,
     aws_subnet.public-subnet-ingress-1c.id
