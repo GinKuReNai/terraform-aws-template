@@ -11,11 +11,10 @@ resource "aws_ecs_task_definition" "task_definition" {
   cpu = 256 # (1vCPU = 1024)
   memory = 512 # (MiB)
 
-  # todo: IAM Roleを作成したら設定すること
   # IAM roles required when the ECS Container Agent executes (starts) a task
-  execution_role_arn = hogehoge
+  execution_role_arn = var.ecs_task_execution_role_arn
   # IAM roles used when using AWS services from applications in containers
-  task_role_arn = hogehoge
+  task_role_arn = var.ecs_task_role_arn
 
   tags = {
     Name = "${var.project}-${var.environment}-task"

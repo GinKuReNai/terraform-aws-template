@@ -22,3 +22,13 @@ variable "alb_target_group_for_green_arn" {
   type = string
   description = "arn of the target group of alb (Green)"
 }
+
+variable "ecs_task_role_arn" {
+  type = string
+  description = "ECS Task Role ARN"
+}
+
+variable "ecs_task_execution_role_arn" {
+  type = string
+  description = "ECS Task Execution Role ARN"
+}
