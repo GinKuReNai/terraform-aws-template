@@ -21,6 +21,14 @@ resource "aws_ecs_service" "ecs_service" {
   platform_version = "LATEST"
   # Grace period for health check at task startup (seconds)
   health_check_grace_period_seconds = 60
+  # Enables interactive command execution for containers in the ECS
+  enable_execute_command = true
+
+  # Automatically stops deployment and rolls back to the original task definition when deployment of a new task for a service fails
+  deployment_circuit_breaker {
+    enable = true
+    rollback = true
+  }
 
   network_configuration {
     # No need to assign a public IP since it is in a private subnet
