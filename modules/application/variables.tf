@@ -42,3 +42,8 @@ variable "ecs_task_execution_role_arn" {
   type = string
   description = "ECS Task Execution Role ARN"
 }
+
+variable "rds_monitoring_role_arn" {
+  type = string
+  description = "RDS Monitoring Role ARN"
+}

@@ -104,6 +104,10 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   engine_version = aws_rds_cluster.rds_cluster.engine_version
   db_subnet_group_name = aws_rds_cluster.rds_cluster.db_subnet_group_name
 
+  # Enable enhanced monitoring
+  monitoring_role_arn = var.rds_monitoring_role_arn
+  monitoring_interval = 60
+
   publicly_accessible = false
 }
 
