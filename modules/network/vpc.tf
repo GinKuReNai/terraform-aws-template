@@ -106,6 +106,17 @@ resource "aws_subnet" "private-subnet-db-1c" {
 }
 
 # ---------------------------------------
+# Database Subnet Group
+# ---------------------------------------
+resource "aws_db_subnet_group" "db-subnet-group" {
+  name = "${var.project}-${var.environment}-db-subnet-group"
+  subnet_ids = [
+    aws_subnet.private-subnet-db-1a,
+    aws_subnet.private_subnet_db_1c
+  ]
+}
+
+# ---------------------------------------
 # Private Subnet(Egress)
 # ---------------------------------------
 resource "aws_subnet" "private-subnet-egress-1a" {

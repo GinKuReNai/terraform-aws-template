@@ -13,6 +13,16 @@ output "ecs_subnet_1c_id" {
   value = aws_subnet.private-subnet-application-1c.id
 }
 
+output "db_subnet_group_name" {
+  description = "Database Subnet Group Name"
+  value = aws_db_subnet_group.db-subnet-group.name
+}
+
+output "db_security_group_id" {
+  description = "Database Security Group ID"
+  value = aws_security_group.rds-sg.id
+}
+
 output "alb_target_group_for_blue_arn" {
   description = "ARN of the target group of ALB (Blue)"
   value = aws_lb_target_group.alb_target_group_for_blue.arn

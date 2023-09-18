@@ -13,6 +13,16 @@ variable "ecs_subnet_1c_id" {
   description = "Subnet ARN(1c)"
 }
 
+variable "db_subnet_group_name" {
+  type = string
+  description = "Database Subnet Group Name"
+}
+
+variable "db_security_group_id" {
+  type = string
+  description = "Database Security Group ID"
+}
+
 variable "alb_target_group_for_blue_arn" {
   type = string
   description = "ARN of the target group of ALB (Blue)"
