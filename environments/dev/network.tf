@@ -1,6 +1,6 @@
 module "network" {
     source = "../../modules/network"
-    project = "terraform-aws-sample"
+    project = "aws-tf-sample"
     environment = "dev"
 
     cidr_block = {

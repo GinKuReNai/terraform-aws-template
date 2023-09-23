@@ -1,6 +1,7 @@
 module "application" {
     source = "../../modules/application"
-    project = "terraform-aws-sample"
+    project = "aws-tf-sample"
+    environment = "dev"
 
     ecs_sg_arn = module.network.ecs_sg_arn
     ecs_subnet_1a_id = module.network.ecs_subnet_1a_id

@@ -1,5 +1,5 @@
 module "roles" {
     source = "../../modules/roles"
-    project = "terraform-aws-sample"
+    project = "aws-tf-sample"
     environment = "dev"
 }
