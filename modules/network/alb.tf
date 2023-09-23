@@ -7,8 +7,8 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   security_groups = [ aws_security_group.alb_sg.id ]
   subnets = [
-    aws_subnet.public-subnet-ingress-1a.id,
-    aws_subnet.public-subnet-ingress-1c.id
+    aws_subnet.public_subnet_ingress_1a.id,
+    aws_subnet.public_subnet_ingress_1c.id
   ]
   ip_address_type = "ipv4"
 
@@ -21,17 +21,19 @@ resource "aws_lb" "alb" {
 # ALB Target Group(Blue)
 # ---------------------------------------
 resource "aws_lb_target_group" "alb_target_group_for_blue" {
-  name = "${var.project}-${var.environment}-alb-target-group-for-blue"
+  # Note the 32-character limit.
+  name = "${var.project}-${var.environment}-alb-tg-blue"
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
   port = 80
   protocol = "HTTP"
   vpc_id = aws_vpc.vpc.id
-  registration_delay = 300
+  # Delay time to prevent AWS from sending a new connection request to the target when the target is unregistered from the target group
+  deregistration_delay = 300
 
   tags = {
-    Name = "${var.project}-${var.environment}-alb-target-group-for-blue"
+    Name = "${var.project}-${var.environment}-alb-tg-blue"
   }
 
   health_check {
@@ -57,17 +59,19 @@ resource "aws_lb_target_group" "alb_target_group_for_blue" {
 # ALB Target Group(Green)
 # ---------------------------------------
 resource "aws_lb_target_group" "alb_target_group_for_green" {
-  name = "${var.project}-${var.environment}-alb-target-group-for-green"
+  # Note the 32-character limit.
+  name = "${var.project}-${var.environment}-alb-tg-green"
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
   port = 80
   protocol = "HTTP"
   vpc_id = aws_vpc.vpc.id
-  registration_delay = 300
+  # Delay time to prevent AWS from sending a new connection request to the target when the target is unregistered from the target group
+  deregistration_delay = 300
 
   tags = {
-    Name = "${var.project}-${var.environment}-alb-target-group-for-green"
+    Name = "${var.project}-${var.environment}-alb-tg-green"
   }
 
   health_check {
@@ -116,6 +120,6 @@ resource "aws_lb_listener" "alb_listener_for_green" {
 
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.alb_target_group_green.arn
+    target_group_arn = aws_lb_target_group.alb_target_group_for_green.arn
   }
 }
