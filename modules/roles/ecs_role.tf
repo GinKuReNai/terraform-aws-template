@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "ecs_task_role_document" {
     effect = "Allow"
     principals {
       type = "Service"
-      identifiers = [ ecs-tasks.amazonaws.com ]
+      identifiers = [ "ecs-tasks.amazonaws.com" ]
     }
     actions = ["sts:AssumeRole"]
   }
@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "ecs_task_role_document" {
 # ---------------------------------------
 resource "aws_iam_role_policy" "ecs_task_policy" {
   name = "${var.project}-${var.environment}-ecs-task-role-policy"
+  role = aws_iam_role.ecs_task_role.name
   policy = data.aws_iam_policy_document.ecs_task_role_policy_document.json
 }
 
@@ -46,7 +47,7 @@ data "aws_iam_policy_document" "ecs_task_role_policy_document" {
 # ---------------------------------------
 # Assume Role(Task Execution Role)
 # ---------------------------------------
-resource "aws_iam_role" "ecs_task_executionrole" {
+resource "aws_iam_role" "ecs_task_execution_role" {
   name = "${var.project}-${var.environment}-ecs-task-execution-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role_document.json
 }
@@ -59,7 +60,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role_document" {
     effect = "Allow"
     principals {
       type = "Service"
-      identifiers = [ ecs-tasks.amazonaws.com ]
+      identifiers = [ "ecs-tasks.amazonaws.com" ]
     }
     actions = ["sts:AssumeRole"]
   }
@@ -70,6 +71,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role_document" {
 # ---------------------------------------
 resource "aws_iam_role_policy" "ecs_task_execution_policy" {
   name = "${var.project}-${var.environment}-ecs-task-execution-role-policy"
+  role = aws_iam_role.ecs_task_execution_role.name
   policy = data.aws_iam_policy_document.ecs_task_execution_role_policy_document.json
 }
 
