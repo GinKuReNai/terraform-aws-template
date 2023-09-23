@@ -177,12 +177,12 @@ resource "aws_route" "route" {
 # ---------------------------------------
 # Assign Route Table
 # ---------------------------------------
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_public_subnet_ingress_1a" {
   route_table_id = aws_route_table.route_table_public.id
   subnet_id = aws_subnet.public_subnet_ingress_1a.id
 }
 
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_public_subnet_ingress_1c"{
   route_table_id = aws_route_table.route_table_public.id
   subnet_id = aws_subnet.public_subnet_ingress_1c.id
 }
@@ -200,32 +200,32 @@ resource "aws_route_table" "route_table_private" {
 # ---------------------------------------
 # Assign Route Table
 # ---------------------------------------
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_application_1a" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_application_1a.id
 }
 
-resource "aws_route_table_asociation" {
+resource "aws_route_table_asociation" "route_table_association_for_private_subnet_application_1c" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_application_1c.id
 }
 
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_db_1a" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_db_1a.id
 }
 
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_db_1c" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_db_1c.id
 }
 
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_egress_1a" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_egress_1a.id
 }
 
-resource "aws_route_table_association" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_egress_1c" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_egress_1c.id
 }
