@@ -22,26 +22,28 @@ task build
 
 2. Init terraform
 
+{environment} should be one of dev, staging, or production. This directive selects the environment in which to deploy.
+
 ```bash
-task init
+task init -- {environment}
 ```
 
 3. Plan terraform
 
 ```bash
-task plan
+task plan -- {environment}
 ```
 
 4. Apply terraform
 
 ```bash
-task apply
+task apply -- {environment}
 ```
 
 5. Destroy terraform
 
 ```bash
-task destroy
+task destroy -- {environment}
 ```
 
 ## License
