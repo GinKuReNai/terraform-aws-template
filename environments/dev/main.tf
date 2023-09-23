@@ -11,9 +11,9 @@ terraform {
   }
 
   # Store tfstate in Amazon S3
-  backend "s3" {
-    bucket = "terraform-tfstate-sample-dev"
-    key    = "ap-northeast-1/terraform.tfstate"
-    region = "ap-northeast-1"
-  }
+  # backend "s3" {
+  #   bucket = "terraform-tfstate-sample-dev"
+  #   key    = "ap-northeast-1/terraform.tfstate"
+  #   region = "ap-northeast-1"
+  # }
 }
