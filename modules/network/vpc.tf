@@ -28,8 +28,8 @@ resource "aws_flow_log" "vpc_flow_log" {
 # ---------------------------------------
 # Public Subnet(ingress)
 # ---------------------------------------
-resource "aws_subnet" "public-subnet-ingress-1a" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "public_subnet_ingress_1a" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1a"
   cidr_block = var.cidr_block.public_subnet_ingress_1a
   # Whether automatically assigns public IPs to instances launched on the subnet or not
@@ -41,8 +41,8 @@ resource "aws_subnet" "public-subnet-ingress-1a" {
   }
 }
 
-resource "aws_subnet" "public-subnet-ingress-1c" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "public_subnet_ingress_1c" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1c"
   cidr_block = var.cidr_block.public_subnet_ingress_1c
   map_public_ip_on_launch = true
@@ -56,8 +56,8 @@ resource "aws_subnet" "public-subnet-ingress-1c" {
 # ---------------------------------------
 # Private Subnet(application)
 # ---------------------------------------
-resource "aws_subnet" "private-subnet-application-1a" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_application_1a" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1a"
   cidr_block = var.cidr_block.private_subnet_application_1a
   # Whether automatically assigns public IPs to instances launched on the subnet or not
@@ -68,8 +68,8 @@ resource "aws_subnet" "private-subnet-application-1a" {
   }
 }
 
-resource "aws_subnet" "private-subnet-application-1c" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_application_1c" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1c"
   cidr_block = var.cidr_block.private_subnet_application_1c
   map_public_ip_on_launch = false
@@ -82,8 +82,8 @@ resource "aws_subnet" "private-subnet-application-1c" {
 # ---------------------------------------
 # Private Subnet(Database)
 # ---------------------------------------
-resource "aws_subnet" "private-subnet-db-1a" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_db_1a" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1a"
   cidr_block = var.cidr_block.private_subnet_db_1a
   # Whether automatically assigns public IPs to instances launched on the subnet or not
@@ -94,8 +94,8 @@ resource "aws_subnet" "private-subnet-db-1a" {
   }
 }
 
-resource "aws_subnet" "private-subnet-db-1c" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_db_1c" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1c"
   cidr_block = var.cidr_block.private_subnet_db_1c
   map_public_ip_on_launch = false
@@ -108,19 +108,19 @@ resource "aws_subnet" "private-subnet-db-1c" {
 # ---------------------------------------
 # Database Subnet Group
 # ---------------------------------------
-resource "aws_db_subnet_group" "db-subnet-group" {
+resource "aws_db_subnet_group" "db_subnet_group" {
   name = "${var.project}-${var.environment}-db-subnet-group"
   subnet_ids = [
-    aws_subnet.private-subnet-db-1a,
-    aws_subnet.private_subnet_db_1c
+    aws_subnet.private_subnet_db_1a.id,
+    aws_subnet.private_subnet_db_1c.id
   ]
 }
 
 # ---------------------------------------
 # Private Subnet(Egress)
 # ---------------------------------------
-resource "aws_subnet" "private-subnet-egress-1a" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_egress_1a" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1a"
   cidr_block = var.cidr_block.private_subnet_egress_1a
   # Whether automatically assigns public IPs to instances launched on the subnet or not
@@ -131,8 +131,8 @@ resource "aws_subnet" "private-subnet-egress-1a" {
   }
 }
 
-resource "aws_subnet" "private-subnet-egress-1c" {
-  vpc_id = aws_vpc.vpc
+resource "aws_subnet" "private_subnet_egress_1c" {
+  vpc_id = aws_vpc.vpc.id
   availability_zone = "ap-northeast-1c"
   cidr_block = var.cidr_block.private_subnet_egress_1c
   # Whether automatically assigns public IPs to instances launched on the subnet or not
@@ -147,7 +147,7 @@ resource "aws_subnet" "private-subnet-egress-1c" {
 # Internet Gateway
 # ---------------------------------------
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.vpc
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     Name = "${var.project}-${var.environment}-igw"
@@ -158,7 +158,7 @@ resource "aws_internet_gateway" "igw" {
 # Route Table
 # ---------------------------------------
 resource "aws_route_table" "route_table_public" {
-  vpc_id = aws_vpc.vpc
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     Name = "${var.project}-${var.environment}-route-table-public"
@@ -169,7 +169,7 @@ resource "aws_route_table" "route_table_public" {
 # Route Table (Ingress)
 # ---------------------------------------
 resource "aws_route" "route" {
-  route_table_id = aws_route_table.route_table.id
+  route_table_id = aws_route_table.route_table_public.id
   gateway_id = aws_internet_gateway.igw.id
   destination_cidr_block = "0.0.0.0/0"
 }
@@ -205,7 +205,7 @@ resource "aws_route_table_association" "route_table_association_for_private_subn
   subnet_id = aws_subnet.private_subnet_application_1a.id
 }
 
-resource "aws_route_table_asociation" "route_table_association_for_private_subnet_application_1c" {
+resource "aws_route_table_association" "route_table_association_for_private_subnet_application_1c" {
   route_table_id = aws_route_table.route_table_private.id
   subnet_id = aws_subnet.private_subnet_application_1c.id
 }
@@ -234,7 +234,7 @@ resource "aws_route_table_association" "route_table_association_for_private_subn
 # VPC Endpoint(Gateway)
 # ---------------------------------------
 resource "aws_vpc_endpoint" "gateway_vpc_endpoint_for_s3" {
-  vpc_id = aws_vpc.id
+  vpc_id = aws_vpc.vpc.id
   # the service name is usually in the form "com.amazonaws.<region>.<service>"
   service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
   vpc_endpoint_type = "Gateway"
@@ -247,19 +247,19 @@ resource "aws_vpc_endpoint" "gateway_vpc_endpoint_for_s3" {
 # Gateway type needs to be tied to the ECS subnet's root table
 resource "aws_vpc_endpoint_route_table_association" "gateway_vpc_endpoint_association_for_s3" {
   vpc_endpoint_id = aws_vpc_endpoint.gateway_vpc_endpoint_for_s3.id
-  route_table_id = aws_route_table.route_table_private
+  route_table_id = aws_route_table.route_table_private.id
 }
 
 # ---------------------------------------
 # VPC Endpoint(Interface)
 # ---------------------------------------
 resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr" {
-  vpc_id = aws_vpc.id
+  vpc_id = aws_vpc.vpc.id
   service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
-  vpc_endpoint_name = "Interface"
+  vpc_endpoint_type = "Interface"
   subnet_ids = [
-    aws_subnet.aws_subnet.private-subnet-egress-1a,
-    aws_subnet.aws_subnet.private-subnet-egress-1c
+    aws_subnet.private_subnet_egress_1a.id,
+    aws_subnet.private_subnet_egress_1c.id
   ]
   security_group_ids = [ aws_security_group.vpc_endpoint_sg.id ]
   private_dns_enabled = true

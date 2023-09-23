@@ -5,22 +5,22 @@ output "ecs_sg_arn" {
 
 output "ecs_subnet_1a_id" {
   description = "Subnet ARN(1a)"
-  value = aws_subnet.private-subnet-application-1a.id
+  value = aws_subnet.private_subnet_application_1a.id
 }
 
 output "ecs_subnet_1c_id" {
   description = "Subnet ARN(1c)"
-  value = aws_subnet.private-subnet-application-1c.id
+  value = aws_subnet.private_subnet_application_1c.id
 }
 
 output "db_subnet_group_name" {
   description = "Database Subnet Group Name"
-  value = aws_db_subnet_group.db-subnet-group.name
+  value = aws_db_subnet_group.db_subnet_group.name
 }
 
 output "db_security_group_id" {
   description = "Database Security Group ID"
-  value = aws_security_group.rds-sg.id
+  value = aws_security_group.rds_sg.id
 }
 
 output "alb_target_group_for_blue_arn" {
@@ -32,4 +32,3 @@ output "alb_target_group_for_green_arn" {
   description = "arn of the target group of alb (Green)"
   value = aws_lb_target_group.alb_target_group_for_green.arn
 }
-
