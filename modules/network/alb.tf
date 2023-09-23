@@ -85,7 +85,7 @@ resource "aws_lb_target_group" "alb_target_group_for_green" {
     healthy_threshold = 3
     # Number of health check executions until an abnormality is determined
     unhealthy_threshold = 2
-    matcher = "200, 301"
+    matcher = "200"
   }
 
   # ALB, target group created at the same time as the ECS service will cause an error,
