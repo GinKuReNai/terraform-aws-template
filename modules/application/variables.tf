@@ -1,3 +1,13 @@
+variable "project" {
+    type = string
+    description = "Project name"
+}
+
+variable "environment" {
+    type = string
+    description = "Environment name"
+}
+
 variable "ecs_sg_arn" {
   type = string
   description = "ARN of IAM role to be assigned to ECS"
