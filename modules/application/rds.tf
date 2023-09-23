@@ -4,7 +4,7 @@
 resource "aws_rds_cluster" "rds_cluster" {
   cluster_identifier = "${var.project}-${var.environment}-rds-cluster"
   db_subnet_group_name = var.db_subnet_group_name
-  vpc_security_group_ids = var.db_security_group_id
+  vpc_security_group_ids = [ var.db_security_group_id ]
   # If using Amazon Aurora, select "aurora-mysql"
   engine = "aurora-mysql"
   # <mysql-major-version>.mysql_aurora.<aurora-mysql-version>
