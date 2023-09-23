@@ -8,6 +8,21 @@ variable "environment" {
     description = "Environment name"
 }
 
+variable "database_name" {
+  type = string
+  description = "Database Name"
+}
+
+variable "master_username" {
+  type = string
+  description = "Master Username"
+}
+
+variable "master_password" {
+  type = string
+  description = "Master Password"
+}
+
 variable "ecs_sg_arn" {
   type = string
   description = "ARN of IAM role to be assigned to ECS"

@@ -3,6 +3,10 @@ module "application" {
     project = "aws-tf-sample"
     environment = "dev"
 
+    database_name = "aws-tf-sample-db"
+    master_username = "user"
+    master_password = "password"
+
     ecs_sg_arn = module.network.ecs_sg_arn
     ecs_subnet_1a_id = module.network.ecs_subnet_1a_id
     ecs_subnet_1c_id = module.network.ecs_subnet_1c_id
