@@ -3,7 +3,7 @@ module "application" {
     project = "aws-tf-sample"
     environment = "dev"
 
-    database_name = "aws-tf-sample-db"
+    database_name = "sample"
     master_username = "user"
     master_password = "password"
 

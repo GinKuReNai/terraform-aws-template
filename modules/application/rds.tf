@@ -8,7 +8,7 @@ resource "aws_rds_cluster" "rds_cluster" {
   # If using Amazon Aurora, select "aurora-mysql"
   engine = "aurora-mysql"
   # <mysql-major-version>.mysql_aurora.<aurora-mysql-version>
-  engine_version = "8.0.mysql_aurora.3.01.0"
+  engine_version = "8.0.mysql_aurora.3.04.0"
   port = 3306
 
   database_name = local.rds_secrets["database_name"]
@@ -95,7 +95,7 @@ resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   # Launch one Writer instance and two Reader instances for a total of three
   count = 3
 
-  instance_class = "db.t3.small"
+  instance_class = "db.r6g.large"
 
   identifier = "${var.project}-${var.environment}-rds-cluster-instance-${count.index}"
   # Set the same value as the cluster
