@@ -47,7 +47,7 @@ resource "aws_lb_target_group" "alb_target_group_for_blue" {
     healthy_threshold = 3
     # Number of health check executions until an abnormality is determined
     unhealthy_threshold = 2
-    matcher = "200, 301"
+    matcher = "200"
   }
 
   # ALB, target group created at the same time as the ECS service will cause an error,
@@ -115,7 +115,7 @@ resource "aws_lb_listener" "alb_listener_for_blue" {
 # ---------------------------------------
 resource "aws_lb_listener" "alb_listener_for_green" {
   load_balancer_arn = aws_lb.alb.arn
-  port = "80"
+  port = "10080"
   protocol = "HTTP"
 
   default_action {
