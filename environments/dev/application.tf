@@ -7,7 +7,7 @@ module "application" {
     master_username = "user"
     master_password = "password"
 
-    ecs_sg_arn = module.network.ecs_sg_arn
+    ecs_sg_id = module.network.ecs_sg_id
     ecs_subnet_1a_id = module.network.ecs_subnet_1a_id
     ecs_subnet_1c_id = module.network.ecs_subnet_1c_id
     db_subnet_group_name = module.network.db_subnet_group_name

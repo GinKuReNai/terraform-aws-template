@@ -23,9 +23,9 @@ variable "master_password" {
   description = "Master Password"
 }
 
-variable "ecs_sg_arn" {
+variable "ecs_sg_id" {
   type = string
-  description = "ARN of IAM role to be assigned to ECS"
+  description = "ID of IAM role to be assigned to ECS"
 }
 
 variable "ecs_subnet_1a_id" {

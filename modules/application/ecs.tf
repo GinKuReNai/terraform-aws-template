@@ -25,15 +25,17 @@ resource "aws_ecs_service" "ecs_service" {
   enable_execute_command = true
 
   # Automatically stops deployment and rolls back to the original task definition when deployment of a new task for a service fails
+  # Available for rolling updates
+  # CODE_DEPLOY is used as deployment controller, so all should be false
   deployment_circuit_breaker {
-    enable = true
-    rollback = true
+    enable = false
+    rollback = false
   }
 
   network_configuration {
     # No need to assign a public IP since it is in a private subnet
     assign_public_ip = false
-    security_groups = [ var.ecs_sg_arn ]
+    security_groups = [ var.ecs_sg_id ]
     subnets = [
       var.ecs_subnet_1a_id,
       var.ecs_subnet_1c_id
@@ -42,7 +44,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_for_blue_arn
-    container_name = "app"
+    container_name = "${aws_ecs_cluster.ecs_cluster.name}-app"
     container_port = 8000
   }
 

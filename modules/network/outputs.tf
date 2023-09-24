@@ -1,6 +1,6 @@
-output "ecs_sg_arn" {
-  description = "ARN of IAM role to be assigned to ECS"
-  value = aws_security_group.ecs_sg.arn
+output "ecs_sg_id" {
+  description = "ID of IAM role to be assigned to ECS"
+  value = aws_security_group.ecs_sg.id
 }
 
 output "ecs_subnet_1a_id" {
