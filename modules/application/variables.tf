@@ -72,3 +72,9 @@ variable "rds_monitoring_role_arn" {
   type = string
   description = "RDS Monitoring Role ARN"
 }
+
+# Data source to obtain ELB service accounts
+data "aws_elb_service_account" "elb_service_account" {}
+
+# Data source to obtain AWS account ID
+data "aws_caller_identity" "current" {}

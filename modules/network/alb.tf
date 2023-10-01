@@ -12,6 +12,11 @@ resource "aws_lb" "alb" {
   ]
   ip_address_type = "ipv4"
 
+  access_logs {
+    enabled = true
+    bucket = aws_s3_bucket.alb_access_log_bucket.bucket
+  }
+
   tags = {
     Name = "${var.project}-${var.environment}-alb"
   }
