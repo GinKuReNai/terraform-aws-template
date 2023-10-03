@@ -1,0 +1,23 @@
+version: "3"
+
+phases:
+    pre_build:
+        commands:
+            - echo "Logging in Amazon ECR..."
+            - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
+
+    build:
+        commands:
+            - echo "Build Started..."
+            - echo "Building Docker image..."
+            - docker build -t $REPOSITORY_URL:$IMAGE_TAG
+
+    post_build:
+        commands:
+            - echo "Pushing the Docker image..."
+            - docker push $REPOSITORY_URL:$IMAGE_TAG
+            - echo "Writing image definitions file..."
+            - printf'[{"name":"%s","imageUri":"%s"}] $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > image_definitions.json
+
+artifacts:
+    files: image_definitions.json
