@@ -17,3 +17,8 @@ output "rds_monitoring_role_arn" {
   description = "RDS Monitoring Role ARN"
   value = aws_iam_role.rds_monitoring_role.arn
 }
+
+output "codebuild_role_arn" {
+  description = "CodeBuild Role ARN"
+  value = aws_iam_role.codebuild_role.arn
+}
