@@ -72,6 +72,14 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
+      "codedeploy:*"
+    ]
+    resources = [var.codedeploy_arn]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
       "s3:GetObject",
       "s3:GetObjectMetaData",
       "s3:GetObjectVersion"
