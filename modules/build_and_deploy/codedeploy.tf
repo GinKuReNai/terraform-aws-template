@@ -27,8 +27,7 @@ resource "aws_codedeploy_deployment_config" "deployment_config" {
 resource "aws_codedeploy_deployment_group" "deployment_group" {
   app_name = aws_codedeploy_app.deploy.name
   deployment_group_name = "${var.project}-${var.environment}-deploy-group"
-  # あとで指定すること
-  service_role_arn = hogehoge
+  service_role_arn = var.codedeploy_role_arn
   deployment_config_name = aws_codedeploy_deployment_config.deployment_config.id
   
   # Automatic rollback to a previous version if it fails for any reason

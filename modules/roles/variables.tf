@@ -8,6 +8,11 @@ variable "environment" {
     description = "Environment name"
 }
 
+variable "ecs_service_name" {
+    type = string
+    description = "ECS Service Name"
+}
+
 variable "ecr_arn" {
     type = string
     description = "ECR Arn"
@@ -27,3 +32,7 @@ variable "codepipeline_artifact_bucket_arn" {
     type = string
     description = "S3 Bucket Arn For CodePipeline Artifact"
 }
+
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}

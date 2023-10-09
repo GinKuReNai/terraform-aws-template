@@ -22,3 +22,8 @@ output "codebuild_role_arn" {
   description = "CodeBuild Role ARN"
   value = aws_iam_role.codebuild_role.arn
 }
+
+output "codedeploy_role_arn" {
+  description = "CodeDeploy Role ARN"
+  value = aws_iam_role.codedeploy_role.arn
+}
