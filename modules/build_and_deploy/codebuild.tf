@@ -7,6 +7,12 @@ resource "aws_codebuild_project" "codebuild" {
   build_timeout = 5
   service_role = var.codebuild_role_arn
 
+  source {
+    type = "GITHUB"
+    location = var.github_repository_url
+    git_clone_depth = 1
+  }
+
   artifacts {
     # Specify "NO_ARTIFACT" to push to ECR
     type = "NO_ARTIFACTS"

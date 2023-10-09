@@ -18,6 +18,11 @@ variable "github_repository_name" {
   description = "GitHub Repository Name"
 }
 
+variable "github_repository_url" {
+  type = string
+  description = "GitHub Repository URL"
+}
+
 variable "ecr_repository_name" {
   type = string
   description = "ECR Repository Name"
