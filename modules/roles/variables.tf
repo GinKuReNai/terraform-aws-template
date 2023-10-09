@@ -18,6 +18,11 @@ variable "ecr_arn" {
     description = "ECR ARN"
 }
 
+variable "ecr_repository_name" {
+  type = string
+  description = "ECR Repository Name"
+}
+
 variable "codebuild_arn" {
     type = string
     description = "CodeBuild ARN"
