@@ -98,13 +98,12 @@ resource "aws_lb_target_group" "alb_target_group_for_test" {
   depends_on = [ aws_lb.alb ]
 }
 
-
 # No need for 'aws_lb_target_group_attachment' resource
 
 # ---------------------------------------
 # ALB Listener(Blue)
 # ---------------------------------------
-resource "aws_lb_listener" "alb_listener_for_blue" {
+resource "aws_lb_listener" "alb_listener_for_prod" {
   load_balancer_arn = aws_lb.alb.arn
   port = "80"
   protocol = "HTTP"
@@ -118,7 +117,7 @@ resource "aws_lb_listener" "alb_listener_for_blue" {
 # ---------------------------------------
 # ALB Listener(Green)
 # ---------------------------------------
-resource "aws_lb_listener" "alb_listener_for_green" {
+resource "aws_lb_listener" "alb_listener_for_test" {
   load_balancer_arn = aws_lb.alb.arn
   port = "10080"
   protocol = "HTTP"
