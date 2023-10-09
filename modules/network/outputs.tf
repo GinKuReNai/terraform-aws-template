@@ -23,12 +23,12 @@ output "db_security_group_id" {
   value = aws_security_group.rds_sg.id
 }
 
-output "alb_target_group_for_blue_arn" {
+output "alb_target_group_for_prod_arn" {
   description = "ARN of the target group of ALB (Blue)"
-  value = aws_lb_target_group.alb_target_group_for_blue.arn
+  value = aws_lb_target_group.alb_target_group_for_prod.arn
 }
 
-output "alb_target_group_for_green_arn" {
+output "alb_target_group_for_test_arn" {
   description = "arn of the target group of alb (Green)"
-  value = aws_lb_target_group.alb_target_group_for_green.arn
+  value = aws_lb_target_group.alb_target_group_for_test.arn
 }

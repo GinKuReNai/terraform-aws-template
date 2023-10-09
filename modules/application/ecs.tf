@@ -43,7 +43,7 @@ resource "aws_ecs_service" "ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = var.alb_target_group_for_blue_arn
+    target_group_arn = var.alb_target_group_for_prod_arn
     container_name = "${aws_ecs_cluster.ecs_cluster.name}-app"
     container_port = 8000
   }

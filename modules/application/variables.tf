@@ -48,12 +48,12 @@ variable "db_security_group_id" {
   description = "Database Security Group ID"
 }
 
-variable "alb_target_group_for_blue_arn" {
+variable "alb_target_group_for_prod_arn" {
   type = string
   description = "ARN of the target group of ALB (Blue)"
 }
 
-variable "alb_target_group_for_green_arn" {
+variable "alb_target_group_for_test_arn" {
   type = string
   description = "arn of the target group of alb (Green)"
 }

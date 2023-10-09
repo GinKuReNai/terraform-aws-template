@@ -25,9 +25,9 @@ resource "aws_lb" "alb" {
 # ---------------------------------------
 # ALB Target Group(Blue)
 # ---------------------------------------
-resource "aws_lb_target_group" "alb_target_group_for_blue" {
+resource "aws_lb_target_group" "alb_target_group_for_prod" {
   # Note the 32-character limit.
-  name = "${var.project}-${var.environment}-alb-tg-blue"
+  name = "${var.project}-${var.environment}-alb-tg-prod"
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
@@ -38,7 +38,7 @@ resource "aws_lb_target_group" "alb_target_group_for_blue" {
   deregistration_delay = 300
 
   tags = {
-    Name = "${var.project}-${var.environment}-alb-tg-blue"
+    Name = "${var.project}-${var.environment}-alb-tg-prod"
   }
 
   health_check {
@@ -63,9 +63,9 @@ resource "aws_lb_target_group" "alb_target_group_for_blue" {
 # ---------------------------------------
 # ALB Target Group(Green)
 # ---------------------------------------
-resource "aws_lb_target_group" "alb_target_group_for_green" {
+resource "aws_lb_target_group" "alb_target_group_for_test" {
   # Note the 32-character limit.
-  name = "${var.project}-${var.environment}-alb-tg-green"
+  name = "${var.project}-${var.environment}-alb-tg-test"
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "alb_target_group_for_green" {
   deregistration_delay = 300
 
   tags = {
-    Name = "${var.project}-${var.environment}-alb-tg-green"
+    Name = "${var.project}-${var.environment}-alb-tg-test"
   }
 
   health_check {
@@ -111,7 +111,7 @@ resource "aws_lb_listener" "alb_listener_for_blue" {
 
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.alb_target_group_for_blue.arn
+    target_group_arn = aws_lb_target_group.alb_target_group_for_prod.arn
   }
 }
 
@@ -125,6 +125,6 @@ resource "aws_lb_listener" "alb_listener_for_green" {
 
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.alb_target_group_for_green.arn
+    target_group_arn = aws_lb_target_group.alb_target_group_for_test.arn
   }
 }
