@@ -68,6 +68,11 @@ variable "codedeploy_role_arn" {
   description = "CodeDeploy Role ARN"
 }
 
+variable "codepipeline_role_arn" {
+  type = string
+  description = "CodePipeline Role ARN"
+}
+
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
