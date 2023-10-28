@@ -49,7 +49,7 @@ resource "aws_ecs_service" "ecs_service" {
   }
 
   lifecycle {
-    ignore_changes = [ task_definition, load_balancer ]
+    ignore_changes = [ task_definition, load_balancer, platform_version ]
   }
 
   # Deploy ECS using CodeDeploy's Blue/Green deployment

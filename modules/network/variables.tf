@@ -31,3 +31,6 @@ variable "vpc_flow_logs_role_arn" {
 data "aws_region" "current" {}
 
 data "aws_caller_identity" "current" {}
+
+# ELB Service Account
+data "aws_elb_service_account" "current" {}

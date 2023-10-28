@@ -13,11 +13,20 @@ resource "aws_codedeploy_deployment_config" "deployment_config" {
   deployment_config_name = "${var.project}-${var.environment}-deployment-config"
   compute_platform = "ECS"
 
-  # Define how many instances should be normal (healthy) when deployed
-  minimum_healthy_hosts {
-    # Specify the number of ECS tasks
-    type = "INSTANCE_COUNT"
-    value = 1
+  # To specify how traffic is routed between the new and existing versions during Blue/Green deployments
+  traffic_routing_config {
+    #  Type of traffic routing config
+    # TimeBasedCanary : It progressively routes a specified percentage of traffic to the new version at regular time intervals
+    # TimeBasedLinear : It routes traffic to the new version with evenly increasing traffic at regular time intervals
+    type = "TimeBasedCanary"
+
+    # 10% of traffic routed to new environment in first 10 minutes
+    time_based_canary {
+      # Time interval (in minutes) to increase traffic
+      interval = 10
+      # Percentage of initial traffic routing
+      percentage = 10
+    }
   }
 }
 
@@ -61,8 +70,8 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
 
   deployment_style {
     # For ECS deployment, the deployment type must be BLUE_GREEN, and deployment option must be WITH_TRAFFIC_CONTROL
-    deployment_option = "WITH_TRAFFIC_CONTROL"
     deployment_type = "BLUE_GREEN"
+    deployment_option = "WITH_TRAFFIC_CONTROL"
   }
 
   ecs_service {

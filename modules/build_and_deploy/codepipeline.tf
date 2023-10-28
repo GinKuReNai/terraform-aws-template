@@ -19,7 +19,7 @@ resource "aws_codepipeline" "pipeline" {
       configuration = {
         ConnectionArn = aws_codestarconnections_connection.github.arn
         FullRepositoryId = "${var.github_account_name}/${var.github_repository_name}"
-        BranchName = "develop"
+        BranchName = var.github_repository_branch
         # Select "CODEBUILD_CLONE_REF" since CodeBuild is used in the Build stage
         OutputArtifactFormat = "CODEBUILD_CLONE_REF"
       }
@@ -57,13 +57,13 @@ resource "aws_codepipeline" "pipeline" {
 
       configuration = {
         ApplicationName = aws_codedeploy_app.deploy.name
-        DeploymentGroupName = aws_codedeploy_deployment_group.deployment_group.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.deployment_group.deployment_group_name
       }
     }
   }
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_artifact.id
+    location = aws_s3_bucket.codepipeline_artifact_bucket.id
     type = "S3"
   }
 }

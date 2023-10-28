@@ -23,6 +23,16 @@ output "db_security_group_id" {
   value = aws_security_group.rds_sg.id
 }
 
+output "alb_listener_for_prod_arn" {
+  description = "ARN of the listener of ALB (Blue)"
+  value = aws_lb_listener.alb_listener_for_prod.arn
+}
+
+output "alb_listener_for_test_arn" {
+  description = "ARN of the listener of ALB (Green)"
+  value = aws_lb_listener.alb_listener_for_test.arn
+}
+
 output "alb_target_group_for_prod_arn" {
   description = "ARN of the target group of ALB (Blue)"
   value = aws_lb_target_group.alb_target_group_for_prod.arn
@@ -31,4 +41,14 @@ output "alb_target_group_for_prod_arn" {
 output "alb_target_group_for_test_arn" {
   description = "arn of the target group of alb (Green)"
   value = aws_lb_target_group.alb_target_group_for_test.arn
+}
+
+output "alb_target_group_for_prod_name" {
+  description = "Name of the target group of ALB (Blue)"
+  value = aws_lb_target_group.alb_target_group_for_prod.name
+}
+
+output "alb_target_group_for_test_name" {
+  description = "Name of the target group of ALB (Green)"
+  value = aws_lb_target_group.alb_target_group_for_test.name
 }

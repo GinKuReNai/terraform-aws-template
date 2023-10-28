@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
       "ecs:DeleteTaskSet",
     ]
     resources = [
-      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:service/${var.ecs_service_name}"
+      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:service/${var.ecs_cluster_name}/${var.ecs_service_name}"
     ]
   }
 

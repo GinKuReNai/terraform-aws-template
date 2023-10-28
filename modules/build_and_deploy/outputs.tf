@@ -15,5 +15,5 @@ output "codepipeline_log_group_arn" {
 
 output "codepipeline_artifact_bucket_arn" {
   description = "S3 Bucket ARN For Artifact made in deploying"
-  value = aws_s3_bucket.codepipeline_artifact.arn
+  value = aws_s3_bucket.codepipeline_artifact_bucket.arn
 }
