@@ -30,6 +30,8 @@ resource "aws_codebuild_project" "codebuild" {
     type = "LINUX_CONTAINER"
     # Pull Docker images using credentials managed by CodeBuild
     image_pull_credentials_type = "CODEBUILD"
+    # Set to true because docker build cannot be done without privileged mode turned on.
+    privileged_mode = true
 
     environment_variable {
       name = "AWS_REGION"
@@ -49,6 +51,16 @@ resource "aws_codebuild_project" "codebuild" {
     environment_variable {
       name = "IMAGE_TAG"
       value = "latest"
+    }
+
+    environment_variable {
+      name = "TASK_DEFINITION_ARN"
+      value = var.ecs_task_definition_arn
+    }
+
+    environment_variable {
+      name = "CONTAINER_NAME"
+      value = "${var.ecs_cluster_name}-app"
     }
   }
 

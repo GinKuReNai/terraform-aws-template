@@ -43,6 +43,11 @@ variable "ecs_service_name" {
   description = "ECS Service Name"
 }
 
+variable "ecs_task_definition_arn" {
+  type = string
+  description = "ECS Task Definition ARN"
+}
+
 variable "prod_alb_listener_arn" {
   type = string
   description = "ALB Listener ARN(Blue : prod)"
