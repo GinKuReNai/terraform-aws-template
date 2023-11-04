@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
     actions = [
       "codestar-connections:UseConnection"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:codestar-connections:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:connection/*"]
   }
 
   statement {
@@ -70,14 +70,34 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
-      "codedeploy:CreateDeployment",
       "codedeploy:GetApplication",
       "codedeploy:GetApplicationRevision",
-      "codedeploy:GetDeployment",
-      "codedeploy:GetDeploymentConfig",
       "codedeploy:RegisterApplicationRevision"
     ]
-    resources = [var.codedeploy_arn]
+    resources = [
+      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:application:${var.codedeploy_app_name}"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "codedeploy:CreateDeployment",
+      "codedeploy:GetDeployment",
+    ]
+    resources = [
+      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deploymentgroup:${var.codedeploy_app_name}/${var.codedeploy_deployment_group_name}"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "codedeploy:GetDeploymentConfig"
+    ]
+    resources = [
+      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deploymentconfig:${var.codedeploy_deployment_config_name}"
+    ]
   }
 
   statement {
@@ -88,18 +108,25 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
       "logs:PutLogEvents",
       "logs:GetLogEvents"
     ]
-    resources = [var.codepipeline_log_group_arn]
+    resources = [
+      var.codepipeline_log_group_arn,
+      "${var.codepipeline_log_group_arn}:*"
+    ]
   }
 
   statement {
     effect = "Allow"
     actions = [
       "s3:PutObject",
+      "s3:PutObjectAcl",
       "s3:GetObject",
       "s3:GetObjectVersion",
       "s3:GetBucketAcl",
       "s3:GetBucketLocation"
     ]
-    resources = [var.codepipeline_artifact_bucket_arn]
+    resources = [
+      var.codepipeline_artifact_bucket_arn,
+      "${var.codepipeline_artifact_bucket_arn}/*"
+    ]
   }
 }

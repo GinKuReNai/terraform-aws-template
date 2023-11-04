@@ -8,16 +8,6 @@ variable "environment" {
     description = "Environment name"
 }
 
-variable "ecs_cluster_name" {
-    type = string
-    description = "ECS Cluster Name"
-}
-
-variable "ecs_service_name" {
-    type = string
-    description = "ECS Service Name"
-}
-
 variable "ecr_arn" {
     type = string
     description = "ECR ARN"
@@ -36,6 +26,21 @@ variable "codebuild_arn" {
 variable "codedeploy_arn" {
   type = string
   description = "CodeDeploy ARN"
+}
+
+variable "codedeploy_app_name" {
+  type = string
+  description = "CodeDeploy Application Name"
+}
+
+variable "codedeploy_deployment_config_name" {
+  type = string
+  description = "CodeDeploy Deployment Config Name"
+}
+
+variable "codedeploy_deployment_group_name" {
+  type = string
+  description = "CodeDeploy Deployment Group Name"
 }
 
 variable "codepipeline_log_group_arn" {

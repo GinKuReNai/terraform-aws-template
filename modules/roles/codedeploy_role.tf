@@ -56,15 +56,25 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
       "ecs:UpdateServicePrimaryTaskSet",
       "ecs:DeleteTaskSet",
     ]
-    resources = [
-      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:service/${var.ecs_cluster_name}/${var.ecs_service_name}"
-    ]
+    resources = ["*"]
   }
 
   statement {
     effect = "Allow"
     actions = [
-      "cloudwatch:DescribeAlerms"
+      "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:DescribeRules",
+      "elasticloadbalancing:ModifyListener",
+      "elasticloadbalancing:ModifyRule"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudwatch:DescribeAlarms"
     ]
     resources = ["*"]
   }
@@ -81,9 +91,11 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
     effect = "Allow"
     actions = [
       "s3:GetObject",
-      "s3:GetObjectMetaData",
       "s3:GetObjectVersion"
     ]
-    resources = [var.codepipeline_artifact_bucket_arn]
+    resources = [
+      var.codepipeline_artifact_bucket_arn,
+      "${var.codepipeline_artifact_bucket_arn}/*"
+    ]
   }
 }

@@ -33,13 +33,38 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
 # IAM Policy Document
 # ---------------------------------------
 data "aws_iam_policy_document" "codebuild_role_policy_document" {
+
   statement {
     effect = "Allow"
     actions = [
-      "ecr:PutImage",
-      "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart",
-      "ecr:CompleteLayerUpload"
+      "codestar-connections:UseConnection"
+    ]
+    resources = ["arn:aws:codestar-connections:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:connection/*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken"
+    ]
+    # Resource chooses a wildcard
+    # because the ecr:GetAuthorizationToken action provides an authorization token at the AWS account level, not at the repository level
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:CompleteLayerUpload",
+        "ecr:DescribeImages",
+        "ecr:DescribeRepositories",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:ListImages",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
     ]
     resources = [var.ecr_arn]
   }
@@ -75,7 +100,10 @@ data "aws_iam_policy_document" "codebuild_role_policy_document" {
       "logs:PutLogEvents",
       "logs:GetLogEvents",
     ]
-    resources = [var.codepipeline_log_group_arn]
+    resources = [
+      var.codepipeline_log_group_arn,
+      "${var.codepipeline_log_group_arn}:*"
+    ]
   }
 
   statement {
@@ -87,6 +115,9 @@ data "aws_iam_policy_document" "codebuild_role_policy_document" {
       "s3:GetBucketAcl",
       "s3:GetBucketLocation"
     ]
-    resources = [var.codepipeline_artifact_bucket_arn]
+    resources = [
+      var.codepipeline_artifact_bucket_arn,
+      "${var.codepipeline_artifact_bucket_arn}/*"
+    ]
   }
 }
