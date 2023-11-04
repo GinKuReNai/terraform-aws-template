@@ -17,3 +17,8 @@ output "ecs_service_name" {
   description = "ECS Service Name"
   value = aws_ecs_service.ecs_service.name
 }
+
+output "ecs_task_definition_arn" {
+  description = "ECS Task Definition ARN"
+  value = aws_ecs_task_definition.task_definition.arn
+}

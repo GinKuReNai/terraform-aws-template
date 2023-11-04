@@ -78,3 +78,5 @@ data "aws_elb_service_account" "elb_service_account" {}
 
 # Data source to obtain AWS account ID
 data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
