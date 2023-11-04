@@ -27,7 +27,7 @@ resource "aws_db_instance" "example" {
     multi_az = false
     availability_zone = "${data.aws_region.current.name}a"
     db_subnet_group_name = var.db_subnet_group_name
-    vpc_security_group_ids = [ var.var.db_security_group_id ]
+    vpc_security_group_ids = [ var.db_security_group_id ]
     # Flag specifying whether to enable public access
     publicly_accessible = false
 
