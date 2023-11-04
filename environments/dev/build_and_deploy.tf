@@ -11,6 +11,7 @@ module "build_and_deploy" {
     ecr_repository_name = module.application.ecr_repository_name
     ecs_cluster_name = module.application.ecs_cluster_name
     ecs_service_name = module.application.ecs_service_name
+    ecs_task_definition_arn = module.application.ecs_task_definition_arn
 
     prod_alb_listener_arn = module.network.alb_listener_for_prod_arn
     test_alb_listener_arn = module.network.alb_listener_for_test_arn
