@@ -1,5 +1,5 @@
 # ---------------------------------------
-# RDS Cluster
+# Aurora RDS Cluster
 # ---------------------------------------
 resource "aws_rds_cluster" "rds_cluster" {
   cluster_identifier = "${var.project}-${var.environment}-rds-cluster"
@@ -27,7 +27,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 }
 
 # ---------------------------------------
-# RDS Parameter Group per cluster
+# Aurora RDS Parameter Group per cluster
 # ---------------------------------------
 resource "aws_rds_cluster_parameter_group" "rds_cluster_parameter_group" {
   name = "${var.project}-${var.environment}-rds-cluster-parameter-group"
@@ -89,7 +89,7 @@ resource "aws_rds_cluster_parameter_group" "rds_cluster_parameter_group" {
 }
 
 # ---------------------------------------
-# RDS Cluster Instance
+# Aurora RDS Cluster Instance
 # ---------------------------------------
 resource "aws_rds_cluster_instance" "rds_cluster_instance" {
   # Launch one Writer instance and two Reader instances for a total of three
