@@ -31,7 +31,7 @@ resource "aws_lb_target_group" "alb_target_group_for_prod" {
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
-  port = 80
+  port = 8000
   protocol = "HTTP"
   vpc_id = aws_vpc.vpc.id
   # Delay time to prevent AWS from sending a new connection request to the target when the target is unregistered from the target group
@@ -69,7 +69,7 @@ resource "aws_lb_target_group" "alb_target_group_for_test" {
   # When using ECS, be sure to select "ip"
   # Because tasks that use the awsvpc network mode are associated with ENI
   target_type = "ip"
-  port = 80
+  port = 8000
   protocol = "HTTP"
   vpc_id = aws_vpc.vpc.id
   # Delay time to prevent AWS from sending a new connection request to the target when the target is unregistered from the target group
