@@ -36,7 +36,9 @@ data "aws_iam_policy_document" "ecs_task_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
-      "secretsmanager:GetSecretValue"
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
     ]
     resources = ["*"]
   }
@@ -82,6 +84,15 @@ data "aws_iam_policy_document" "ecs_task_execution_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = ["*"]
+  }
+
+
+  statement {
+    effect = "Allow"
+    actions = [
       "ecs:DeregisterContainerInstance",
       "ecs:DiscoverPollEndPoint",
       "ecs:Poll",
@@ -99,7 +110,14 @@ data "aws_iam_policy_document" "ecs_task_execution_role_policy_document" {
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
       "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage"
+      "ecr:GetRepositoryPolicy",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings"
     ]
     resources = ["*"]
   }

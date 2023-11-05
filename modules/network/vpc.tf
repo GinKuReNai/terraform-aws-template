@@ -155,7 +155,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # ---------------------------------------
-# Route Table
+# Route Table (Ingress)
 # ---------------------------------------
 resource "aws_route_table" "route_table_public" {
   vpc_id = aws_vpc.vpc.id
@@ -166,16 +166,16 @@ resource "aws_route_table" "route_table_public" {
 }
 
 # ---------------------------------------
-# Route Table (Ingress)
+# Route (Ingress)
 # ---------------------------------------
-resource "aws_route" "route" {
+resource "aws_route" "route_for_public" {
   route_table_id = aws_route_table.route_table_public.id
   gateway_id = aws_internet_gateway.igw.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
 # ---------------------------------------
-# Assign Route Table
+# Assign Route Table (Ingress)
 # ---------------------------------------
 resource "aws_route_table_association" "route_table_association_for_public_subnet_ingress_1a" {
   route_table_id = aws_route_table.route_table_public.id
@@ -188,46 +188,26 @@ resource "aws_route_table_association" "route_table_association_for_public_subne
 }
 
 # ---------------------------------------
-# Route Table (ECS・RDS)
+# Route Table (ECS)
 # ---------------------------------------
-resource "aws_route_table" "route_table_private" {
+resource "aws_route_table" "route_table_ecs" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "${var.project}-${var.environment}-route-table-private"
+    Name = "${var.project}-${var.environment}-route-table-ecs"
   }
 }
 
 # ---------------------------------------
-# Assign Route Table
+# Assign Route Table (ECS)
 # ---------------------------------------
 resource "aws_route_table_association" "route_table_association_for_private_subnet_application_1a" {
-  route_table_id = aws_route_table.route_table_private.id
+  route_table_id = aws_route_table.route_table_ecs.id
   subnet_id = aws_subnet.private_subnet_application_1a.id
 }
 
 resource "aws_route_table_association" "route_table_association_for_private_subnet_application_1c" {
-  route_table_id = aws_route_table.route_table_private.id
+  route_table_id = aws_route_table.route_table_ecs.id
   subnet_id = aws_subnet.private_subnet_application_1c.id
-}
-
-resource "aws_route_table_association" "route_table_association_for_private_subnet_db_1a" {
-  route_table_id = aws_route_table.route_table_private.id
-  subnet_id = aws_subnet.private_subnet_db_1a.id
-}
-
-resource "aws_route_table_association" "route_table_association_for_private_subnet_db_1c" {
-  route_table_id = aws_route_table.route_table_private.id
-  subnet_id = aws_subnet.private_subnet_db_1c.id
-}
-
-resource "aws_route_table_association" "route_table_association_for_private_subnet_egress_1a" {
-  route_table_id = aws_route_table.route_table_private.id
-  subnet_id = aws_subnet.private_subnet_egress_1a.id
-}
-
-resource "aws_route_table_association" "route_table_association_for_private_subnet_egress_1c" {
-  route_table_id = aws_route_table.route_table_private.id
-  subnet_id = aws_subnet.private_subnet_egress_1c.id
 }
 
 # ---------------------------------------
@@ -247,13 +227,13 @@ resource "aws_vpc_endpoint" "gateway_vpc_endpoint_for_s3" {
 # Gateway type needs to be tied to the ECS subnet's root table
 resource "aws_vpc_endpoint_route_table_association" "gateway_vpc_endpoint_association_for_s3" {
   vpc_endpoint_id = aws_vpc_endpoint.gateway_vpc_endpoint_for_s3.id
-  route_table_id = aws_route_table.route_table_private.id
+  route_table_id = aws_route_table.route_table_ecs.id
 }
 
 # ---------------------------------------
 # VPC Endpoint(Interface)
 # ---------------------------------------
-resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr" {
+resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr_api" {
   vpc_id = aws_vpc.vpc.id
   service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
   vpc_endpoint_type = "Interface"
@@ -265,6 +245,38 @@ resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr" {
   private_dns_enabled = true
 
   tags = {
-    Name = "${var.project}-${var.environment}-interface-vpc-endpoint-for-ecr"
+    Name = "${var.project}-${var.environment}-interface-vpc-endpoint-for-ecr-api"
+  }
+}
+
+resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_ecr_dkr" {
+  vpc_id = aws_vpc.vpc.id
+  service_name = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+  vpc_endpoint_type = "Interface"
+  subnet_ids = [
+    aws_subnet.private_subnet_egress_1a.id,
+    aws_subnet.private_subnet_egress_1c.id
+  ]
+  security_group_ids = [ aws_security_group.vpc_endpoint_sg.id ]
+  private_dns_enabled = true
+
+  tags = {
+    Name = "${var.project}-${var.environment}-interface-vpc-endpoint-for-ecr-dkr"
+  }
+}
+
+resource "aws_vpc_endpoint" "interface_vpc_endpoint_for_logs" {
+  vpc_id = aws_vpc.vpc.id
+  service_name = "com.amazonaws.${data.aws_region.current.name}.logs"
+  vpc_endpoint_type = "Interface"
+  subnet_ids = [
+    aws_subnet.private_subnet_egress_1a.id,
+    aws_subnet.private_subnet_egress_1c.id
+  ]
+  security_group_ids = [ aws_security_group.vpc_endpoint_sg.id ]
+  private_dns_enabled = true
+
+  tags = {
+    Name = "${var.project}-${var.environment}-interface-vpc-endpoint-for-logs"
   }
 }
