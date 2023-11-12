@@ -53,7 +53,7 @@ resource "aws_db_instance" "example" {
     # true if you don't want the operation to be deleted.
     deletion_protection = false
     # Flag specifying whether to skip the last snapshot when deleting an RDS cluster
-    skip_final_snapshot = false
+    skip_final_snapshot = true
     # If true, changes are applied immediately. This may involve restarting the database.
     apply_immediately = true
 }
