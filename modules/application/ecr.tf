@@ -17,10 +17,9 @@ resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
   policy = jsonencode({
     rules = [{
       rulePriority = 1
-      description = "Retain only 5 images with 'latest' tag"
+      description = "Retain only 5 images"
       selection = {
-        tagStatus = "tagged"
-        tagPrefixList = ["latest"]
+        tagStatus = "any"
         countType = "imageCountMoreThan"
         countNumber = 5
       }
