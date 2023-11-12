@@ -73,6 +73,11 @@ variable "rds_monitoring_role_arn" {
   description = "RDS Monitoring Role ARN"
 }
 
+variable "autoscaling_role_arn" {
+  type = string
+  description = "AutoScaling Role ARN"
+}
+
 # Data source to obtain ELB service accounts
 data "aws_elb_service_account" "elb_service_account" {}
 

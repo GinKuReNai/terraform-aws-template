@@ -17,4 +17,5 @@ module "application" {
     ecs_task_role_arn = module.roles.ecs_task_role_arn
     ecs_task_execution_role_arn = module.roles.ecs_task_execution_role_arn
     rds_monitoring_role_arn = module.roles.rds_monitoring_role_arn
+    autoscaling_role_arn = module.roles.autoscaling_role_arn
 }

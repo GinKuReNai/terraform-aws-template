@@ -32,3 +32,8 @@ output "codepipeline_role_arn" {
   description = "CodePipeline Role ARN"
   value = aws_iam_role.codepipeline_role.arn
 }
+
+output "autoscaling_role_arn" {
+  description = "AutoScaling Role ARN"
+  value = aws_iam_role.autoscaling_role.arn
+}
