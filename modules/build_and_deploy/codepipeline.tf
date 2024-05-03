@@ -51,7 +51,7 @@ resource "aws_codepipeline" "pipeline" {
       name = "Deploy"
       category = "Deploy"
       owner = "AWS"
-      provider = "CodeDeploy"
+      provider = "CodeDeployToECS"
       input_artifacts = ["BuildArtifact"]
       version = 1
 

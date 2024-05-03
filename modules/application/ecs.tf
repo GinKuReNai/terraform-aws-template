@@ -21,11 +21,11 @@ resource "aws_ecs_service" "ecs_service" {
   cluster = aws_ecs_cluster.ecs_cluster.arn
   task_definition = aws_ecs_task_definition.task_definition.arn
   # Number of tasks maintained by ECS
-  desired_count = 2
+  desired_count = 1
   launch_type = "FARGATE"
   platform_version = "LATEST"
   # Grace period for health check at task startup (seconds)
-  health_check_grace_period_seconds = 60
+  health_check_grace_period_seconds = 30
   # Enables interactive command execution for containers in the ECS
   enable_execute_command = true
 

@@ -37,6 +37,9 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
   app_name = aws_codedeploy_app.deploy.name
   deployment_group_name = "${var.project}-${var.environment}-deploy-group"
   service_role_arn = var.codedeploy_role_arn
+
+  # DEPLOYMENT_CONFIG_NAME : Name of the deployment configuration
+  # https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html
   deployment_config_name = aws_codedeploy_deployment_config.deployment_config.id
   
   # Automatic rollback to a previous version if it fails for any reason
@@ -56,7 +59,7 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
       # For example, if a particular health check or application startup verification times out, the deployment process will continue to the next step
       # STOP_DEPLOYMENT : Deployment is stopped when a timeout occurs during the deployment preparation phase
       action_on_timeout = "STOP_DEPLOYMENT"
-      wait_time_in_minutes = 30
+      wait_time_in_minutes = 0 # To set a waiting time for the production.
     }
 
     terminate_blue_instances_on_deployment_success {
@@ -64,7 +67,7 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
       # TERMINATE : Instances are terminated after a specified wait time
       # KEEP_ALIVE : Instances are left running after they are deregistered from the load balancer and removed from the deployment group
       action = "TERMINATE"
-      termination_wait_time_in_minutes = 15
+      termination_wait_time_in_minutes = 0 # To set a waiting time for the production
     }
   }
 
