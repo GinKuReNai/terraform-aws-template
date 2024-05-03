@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
     ]
     resources = ["*"]
     condition {
-      test = "StringEqualsIfExists"
+      test     = "StringEqualsIfExists"
       variable = "iam:PassedToService"
       values = [
         "ecs-tasks.amazonaws.com"
@@ -59,12 +59,39 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
+      "ecs:DescribeTaskDefinition",
+      "ecs:RegisterTaskDefinition",
+      "ecs:CreateTaskSet",
+      "ecs:UpdateTaskSet",
+      "ecs:DescribeTaskSets",
+      "ecs:DeleteTaskSet",
+    ]
+    # リソースレベルの指定はサポートされていないため、全リソースを対象とする
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:UpdateService",
+      "ecs:DescribeServices",
+    ]
+    resources = [
+      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:service/*",
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild",
       "codebuild:BatchGetBuildBatches",
       "codebuild:StartBuildBatch"
     ]
-    resources = [var.codebuild_arn]
+    resources = [
+      var.codebuild_arn,
+    ]
   }
 
   statement {
@@ -72,10 +99,10 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
     actions = [
       "codedeploy:GetApplication",
       "codedeploy:GetApplicationRevision",
-      "codedeploy:RegisterApplicationRevision"
+      "codedeploy:RegisterApplicationRevision",
     ]
     resources = [
-      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:application:${var.codedeploy_app_name}"
+      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:application:*"
     ]
   }
 
@@ -93,10 +120,10 @@ data "aws_iam_policy_document" "codepipeline_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
-      "codedeploy:GetDeploymentConfig"
+      "codedeploy:GetDeploymentConfig",
     ]
     resources = [
-      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deploymentconfig:${var.codedeploy_deployment_config_name}"
+      "arn:aws:codedeploy:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:deploymentconfig:*"
     ]
   }
 

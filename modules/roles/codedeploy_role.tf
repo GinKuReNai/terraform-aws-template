@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
     ]
     resources = ["*"]
     condition {
-      test = "StringEqualsIfExists"
+      test     = "StringEqualsIfExists"
       variable = "iam:PassedToService"
       values = [
         "ecs-tasks.amazonaws.com"
@@ -51,12 +51,27 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
   statement {
     effect = "Allow"
     actions = [
-      "ecs:DescribeServices",
+      "ecs:DescribeTaskDefinition",
+      "ecs:RegisterTaskDefinition",
       "ecs:CreateTaskSet",
+      "ecs:UpdateTaskSet",
       "ecs:UpdateServicePrimaryTaskSet",
+      "ecs:DescribeTaskSets",
       "ecs:DeleteTaskSet",
     ]
+    # リソースレベルの指定はサポートされていないため、全リソースを対象とする
+    # https://docs.aws.amazon.com/ja_jp/service-authorization/latest/reference/list_amazonelasticcontainerservice.html
     resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:DescribeServices",
+    ]
+    resources = [
+      "arn:aws:ecs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:service/*",
+    ]
   }
 
   statement {
@@ -68,6 +83,8 @@ data "aws_iam_policy_document" "codedeploy_role_policy_document" {
       "elasticloadbalancing:ModifyListener",
       "elasticloadbalancing:ModifyRule"
     ]
+    # リソースレベルの指定はサポートされていないため、全リソースを対象とする
+    # https://docs.aws.amazon.com/ja_jp/service-authorization/latest/reference/list_awselasticloadbalancingv2.html
     resources = ["*"]
   }
 
